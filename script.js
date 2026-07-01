@@ -87,40 +87,18 @@ function prepararAnimaciones() {
   });
 }
 
-function prepararInputsFoto() {
-  var inputGaleria = document.getElementById("subirFoto");
-  var inputCamara = document.getElementById("tomarFoto");
-
-  [inputGaleria, inputCamara].forEach(function (input) {
-    if (!input) return;
-
-    input.addEventListener("change", function () {
-      fotoSeleccionada = input.files[0] || null;
-
-      if (fotoSeleccionada) {
-        var mensaje = document.getElementById("mensajeFoto");
-        mensaje.innerText = "Foto lista: " + fotoSeleccionada.name;
-        mensaje.style.color = "#153c68";
-      }
-    });
-  });
-}
-
 function confirmarAsistencia() {
   var nombre = document.getElementById("nombreCompleto").value.trim();
-  var cantidad = document.getElementById("cantidadAdultos").value;
   var boton = document.getElementById("botonConfirmar");
-  var mensaje = document.getElementById("mensajeConfirmacion");
 
-  if (nombre === "" || cantidad === "") {
-    alert("Por favor completa los campos.");
+  if (nombre === "") {
+    alert("Por favor escribe tu nombre completo.");
     return;
   }
 
   var datos = {
     tipo: "asistencia",
-    nombre: nombre,
-    adultos: cantidad
+    nombre: nombre
   };
 
   boton.disabled = true;
@@ -135,13 +113,7 @@ function confirmarAsistencia() {
     body: JSON.stringify(datos)
   })
   .then(function () {
-    mensaje.style.display = "block";
-    mensaje.innerText = "Asistencia confirmada. ¡Gracias por acompañarnos!";
-
-    boton.innerText = "Asistencia confirmada";
-    boton.classList.add("confirmado");
-
-    document.getElementById("formularioAsistencia").reset();
+    mostrarPaginaConfirmacion();
   })
   .catch(function (error) {
     console.error("Error en la conexión:", error);
@@ -149,6 +121,40 @@ function confirmarAsistencia() {
 
     boton.disabled = false;
     boton.innerText = "Confirmar asistencia";
+  });
+}
+
+function mostrarPaginaConfirmacion() {
+  var paginaInvitacion = document.getElementById("paginaInvitacion");
+  var paginaConfirmacion = document.getElementById("paginaConfirmacion");
+
+  paginaInvitacion.style.display = "none";
+  paginaConfirmacion.classList.remove("oculto");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function prepararInputsFoto() {
+  var inputGaleria = document.getElementById("subirFoto");
+  var inputCamara = document.getElementById("tomarFoto");
+
+  [inputGaleria, inputCamara].forEach(function (input) {
+    if (!input) {
+      return;
+    }
+
+    input.addEventListener("change", function () {
+      fotoSeleccionada = input.files[0] || null;
+
+      if (fotoSeleccionada) {
+        var mensaje = document.getElementById("mensajeFoto");
+        mensaje.innerText = "Foto lista: " + fotoSeleccionada.name;
+        mensaje.style.color = "#153c68";
+      }
+    });
   });
 }
 
