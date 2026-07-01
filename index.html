@@ -1,54 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boda de Ramiro & Janneth</title>
-
-  <!-- CSS corregido -->
-  <link rel="stylesheet" href="./styles.css?v=1">
-</head>
-<body>
-
-  <div class="brillo-fondo"></div>
-
-  <audio id="musicaBoda" loop>
-    <source src="musica-boda.mp3" type="audio/mpeg">
-  </audio>
-
-  <button class="boton-musica" type="button" onclick="controlarMusica()">♪</button>
-
-  <header class="caratula">
-    <img
-      src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85"
-      alt="Novios"
-      class="foto-novios"
-    >
-
-    <div class="velo"></div>
-
-    <div class="hero-contenido">
-      <p class="texto-superior">Nuestra boda</p>
-      <h1>Ramiro<br>& Janneth</h1>
-      <p class="mensaje-amor">
-        Hay momentos que se sueñan toda la vida, y este queremos compartirlo contigo.
-      </p>
-      <div class="fecha-boda">18 de septiembre 2026 · 19:30 hrs</div>
-    </div>
-  </header>
-
-  <main>
-
-    <section class="panel reveal">
-      <p class="etiqueta">Con amor</p>
-      <h2>Estás invitado</h2>
-      <p>
-        Queremos celebrar el inicio de nuestra nueva vida juntos rodeados de las personas que más queremos.
-        Será una noche llena de emoción, luces suaves, música y recuerdos para guardar siempre.
-      </p>
-      <p class="aclaracion">Recepción exclusiva para adultos. Agradecemos tu comprensión.</p>
-    </section>
-
     <section class="contador reveal">
       <div>
         <span id="dias">00</span>
@@ -68,22 +17,44 @@
       </div>
     </section>
 
+        <section class="panel reveal">
+            <p class="etiqueta">Dress code</p>
+            <h2>Código de vestimenta</h2>
+            <p><strong>Elegante formal</strong></p>
+            <p>Tonos sugeridos: perla, azul cielo, azul hielo, azul francés, azul marino y plata suave.</p>
+            <div class="paleta" aria-label="Paleta de colores sugerida">
+                <span style="background:#f8f5ec"></span>
+                <span style="background:#d9ecff"></span>
+                <span style="background:#99c8ee"></span>
+                <span style="background:#4c84bd"></span>
+                <span style="background:#153c68"></span>
+                <span style="background:#d8dde6"></span>
+            </div>
+        </section>
     <section class="panel reveal">
       <p class="etiqueta">Ubicaciones</p>
       <h2>Ceremonia y recepción</h2>
 
+        <section class="panel reveal">
+            <p class="etiqueta">Agenda</p>
+            <h2>Programa</h2>
+            <div class="programa">
+                <div><strong>19:30</strong><p>Ceremonia</p></div>
+                <div><strong>20:30</strong><p>Recepción</p></div>
+                <div><strong>21:00</strong><p>Cena y brindis</p></div>
+                <div><strong>22:30</strong><p>Baile</p></div>
+            </div>
+        </section>
       <div class="mapas">
         <article class="mapa-card">
           <h3>Iglesia</h3>
           <p>Ceremonia religiosa</p>
-
           <iframe
             title="Mapa de la iglesia"
             loading="lazy"
             src="https://www.google.com/maps?q=iglesia&output=embed">
           </iframe>
-
-          <a class="boton-link" href="https://www.google.com/maps/search/iglesia" target="_blank">
+          <a class="boton-link" href="https://www.google.com/maps/search/iglesia" target="_blank" rel="noopener">
             Abrir mapa
           </a>
         </article>
@@ -91,33 +62,15 @@
         <article class="mapa-card">
           <h3>Centro de convenciones</h3>
           <p>Recepción y celebración</p>
-
           <iframe
             title="Mapa del centro de convenciones"
             loading="lazy"
             src="https://www.google.com/maps?q=centro%20de%20convenciones&output=embed">
           </iframe>
-
-          <a class="boton-link" href="https://www.google.com/maps/search/centro%20de%20convenciones" target="_blank">
+          <a class="boton-link" href="https://www.google.com/maps/search/centro%20de%20convenciones" target="_blank" rel="noopener">
             Abrir mapa
           </a>
         </article>
-      </div>
-    </section>
-
-    <section class="panel reveal">
-      <p class="etiqueta">Dress code</p>
-      <h2>Código de vestimenta</h2>
-      <p><strong>Elegante formal</strong></p>
-      <p>Tonos sugeridos: perla, azul cielo, azul hielo, azul francés, azul marino y plata suave.</p>
-
-      <div class="paleta">
-        <span style="background:#f8f5ec"></span>
-        <span style="background:#d9ecff"></span>
-        <span style="background:#99c8ee"></span>
-        <span style="background:#4c84bd"></span>
-        <span style="background:#153c68"></span>
-        <span style="background:#d8dde6"></span>
       </div>
     </section>
 
@@ -145,38 +98,13 @@
       </div>
     </section>
 
-    <section class="seccion-album reveal">
-      <p class="etiqueta">Recuerdos</p>
-      <h2>Álbum de la boda</h2>
-
-      <div class="galeria">
-        <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=80" alt="Anillos">
-        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=700&q=80" alt="Flores">
-        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=80" alt="Salón">
-        <img src="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?auto=format&fit=crop&w=700&q=80" alt="Pastel">
-      </div>
+    <section class="mensajes reveal">
+      <h2>Mensajes de amor</h2>
+      <p>El amor verdadero se elige, se cuida y se celebra.</p>
+      <p>Hoy empieza una historia nueva, acompañados por quienes hacen más bonita nuestra vida.</p>
     </section>
 
-    <section class="panel reveal">
-      <p class="etiqueta">Comparte tu mirada</p>
-      <h2>Sube tus fotos</h2>
-      <p>Selecciona una imagen de tu galería o toma una foto desde tu celular.</p>
-
-      <div class="foto-acciones">
-        <label class="archivo-label" for="subirFoto">Elegir de galería</label>
-        <label class="archivo-label secundario" for="tomarFoto">Tomar foto</label>
-      </div>
-
-      <input type="file" id="subirFoto" accept="image/*">
-      <input type="file" id="tomarFoto" accept="image/*" capture="environment">
-
-      <button type="button" onclick="procesarFoto()">Subir foto</button>
-
-      <p id="mensajeFoto" class="mensaje-foto"></p>
-      <div id="galeriaFotos" class="galeria-fotos"></div>
-    </section>
-
-    <section class="panel reveal">
+    <section id="asistencia" class="panel reveal">
       <p class="etiqueta">RSVP</p>
       <h2>Confirmar asistencia</h2>
       <p>Por favor confirma tu asistencia para ayudarnos con la organización.</p>
@@ -184,24 +112,83 @@
       <form id="formularioAsistencia">
         <input type="text" id="nombreCompleto" placeholder="Nombre completo" required>
         <input type="number" id="cantidadAdultos" placeholder="Cantidad de adultos" min="1" max="4" required>
-
         <button id="botonConfirmar" type="button" onclick="confirmarAsistencia()">
           Confirmar asistencia
         </button>
       </form>
-
-      <p id="mensajeConfirmacion" class="mensaje-exito">
-        Asistencia confirmada. ¡Gracias por acompañarnos!
-      </p>
     </section>
 
+        <section class="mensajes reveal">
+            <h2>Mensajes de amor</h2>
+            <p>El amor verdadero se elige, se cuida y se celebra.</p>
+            <p>Hoy empieza una historia nueva, acompañados por quienes hacen más bonita nuestra vida.</p>
+        </section>
+    <section id="confirmacionFotos" class="panel panel-confirmacion oculto">
+      <p class="etiqueta">Confirmación recibida</p>
+      <h2>¡Asistencia confirmada!</h2>
+      <p id="mensajeConfirmacion" class="mensaje-exito">
+        Gracias por confirmar. Ahora puedes compartir tus fotos para nuestro recuerdo.
+      </p>
+
+      <div class="foto-acciones">
+        <label class="archivo-label" for="subirFoto">Elegir de galería</label>
+        <label class="archivo-label secundario" for="tomarFoto">Tomar foto</label>
+      </div>
+
+        <section class="seccion-album reveal">
+            <p class="etiqueta">Recuerdos</p>
+            <h2>Álbum de la boda</h2>
+            <div class="galeria">
+                <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=80" alt="Anillos de boda">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=700&q=80" alt="Flores de boda">
+                <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=80" alt="Salón de fiesta">
+                <img src="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?auto=format&fit=crop&w=700&q=80" alt="Pastel de boda">
+            </div>
+        </section>
+      <input type="file" id="subirFoto" accept="image/*">
+      <input type="file" id="tomarFoto" accept="image/*" capture="environment">
+
+        <section class="panel reveal">
+            <p class="etiqueta">Comparte tu mirada</p>
+            <h2>Sube tus fotos</h2>
+            <p>Selecciona una imagen de tu galería o toma una foto desde tu celular para sumarla al álbum.</p>
+            <div class="foto-acciones">
+                <label class="archivo-label" for="subirFoto">Elegir de galería</label>
+                <label class="archivo-label secundario" for="tomarFoto">Tomar foto</label>
+            </div>
+            <input type="file" id="subirFoto" accept="image/*">
+            <input type="file" id="tomarFoto" accept="image/*" capture="environment">
+            <button type="button" onclick="procesarFoto()">Subir foto</button>
+            <p id="mensajeFoto" class="mensaje-foto"></p>
+            <div id="galeriaFotos" class="galeria-fotos" aria-live="polite"></div>
+        </section>
+      <button type="button" onclick="procesarFoto()">Subir foto</button>
+
+        <section class="panel reveal">
+            <p class="etiqueta">RSVP</p>
+            <h2>Confirmar asistencia</h2>
+            <p>Por favor confirma tu asistencia para ayudarnos con la organización.</p>
+            <form id="formularioAsistencia">
+                <input type="text" id="nombreCompleto" placeholder="Nombre completo" autocomplete="name" required>
+                <input type="number" id="cantidadAdultos" placeholder="Cantidad de adultos" min="1" max="4" required>
+                <button id="botonConfirmar" type="button" onclick="confirmarAsistencia()">Confirmar asistencia</button>
+            </form>
+            <p id="mensajeConfirmacion" class="mensaje-exito">Asistencia confirmada. ¡Gracias por acompañarnos!</p>
+        </section>
+    </main>
+      <p id="mensajeFoto" class="mensaje-foto"></p>
+      <div id="galeriaFotos" class="galeria-fotos"></div>
+    </section>
   </main>
 
+    <footer>
+        <p>Con amor, Ramiro & Janneth</p>
+    </footer>
   <footer>
     <p>Con amor, Ramiro & Janneth</p>
   </footer>
 
-  <!-- JS corregido -->
-  <script src="./script.js?v=1"></script>
+    <script src="script.js"></script>
+  <script src="./script.js?v=2"></script>
 </body>
 </html>
