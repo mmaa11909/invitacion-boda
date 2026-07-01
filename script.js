@@ -3,7 +3,7 @@
 // Pega aquí la URL que obtienes al "Implementar" tu código en Google Apps Script.
 // Ejemplo: "https://script.google.com/macros/s/AKfycb.../exec"
 // =====================================================================
-var URL_SERVIDOR_GOOGLE = "PEGA_TU_URL_DE_APPS_SCRIPT_AQUI";
+var URL_SERVIDOR_GOOGLE = "https://script.google.com/macros/s/AKfycbwN4p7bHI2VbinITdjffPGoOQzQxpscdZLjkTXjn4d6BTHbX3wkD9nzGbOHYWe55FB_hA/exec";
 
 function confirmarAsistencia() {
     var nombre = document.getElementById('nombreCompleto').value;
