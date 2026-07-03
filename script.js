@@ -14,16 +14,32 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // --- MÚSICA ---
+// Función para asegurar que el audio se mantenga sonando
+function iniciarMusica() {
+  var audio = document.getElementById("musicaBoda");
+  var boton = document.querySelector(".boton-musica");
+
+  audio.play().then(function () {
+    boton.classList.add("activa");
+  }).catch(function (error) {
+    console.log("Esperando interacción del usuario para reproducir audio.");
+  });
+}
+
+// 1. Intentar reproducir al cargar la página
+window.addEventListener('load', iniciarMusica);
+
+// 2. Si el usuario hace clic en cualquier parte, forzar la reproducción (por si el navegador bloqueó el autoplay)
+document.body.addEventListener('click', iniciarMusica, { once: true });
+
+// Tu función original modificada para solo alternar el estado
 function controlarMusica() {
   var audio = document.getElementById("musicaBoda");
   var boton = document.querySelector(".boton-musica");
 
   if (audio.paused) {
-    audio.play().then(function () {
-      boton.classList.add("activa");
-    }).catch(function () {
-      alert("Toca nuevamente para activar la música.");
-    });
+    audio.play();
+    boton.classList.add("activa");
   } else {
     audio.pause();
     boton.classList.remove("activa");
