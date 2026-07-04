@@ -425,3 +425,50 @@ footer {
     min-width: 240px;
   }
 }
+
+/* --- DECORACIÓN FLORAL EN MOVIMIENTO (NUEVO) --- */
+.decoracion-floral {
+  position: fixed;
+  top: -10px;
+  width: 180px;
+  height: 250px;
+  z-index: 30;
+  pointer-events: none; /* Evita que estorben al hacer clic */
+  /* Imagen de flores en tonos azules elegante */
+  background-image: url('https://cdn-icons-png.flaticon.com/512/7518/7518937.png'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.15; /* Sutil y elegante */
+  filter: hue-rotate(20deg) saturate(0.8); /* Ajusta un poco al azul marino */
+}
+
+.esquina-izq {
+  left: -20px;
+  transform-origin: top left;
+  animation: brisaIzquierda 6s ease-in-out infinite alternate;
+}
+
+.esquina-der {
+  right: -20px;
+  transform: scaleX(-1); /* Voltea la imagen para que mire hacia adentro */
+  transform-origin: top right;
+  animation: brisaDerecha 7s ease-in-out infinite alternate;
+}
+
+@keyframes brisaIzquierda {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(5deg); }
+}
+
+@keyframes brisaDerecha {
+  0% { transform: scaleX(-1) rotate(0deg); }
+  100% { transform: scaleX(-1) rotate(-5deg); }
+}
+
+/* Ajuste de tamaño para móviles */
+@media (max-width: 768px) {
+  .decoracion-floral {
+    width: 120px;
+    height: 180px;
+  }
+}
