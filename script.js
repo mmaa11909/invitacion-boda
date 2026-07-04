@@ -1,5 +1,4 @@
 // --- CONFIGURACIÓN DE RUTAS ---
-// Usamos el primer script para la asistencia y el nuevo para las fotos
 var URL_ASISTENCIA = "https://script.google.com/macros/s/AKfycbwN4p7bHI2VbinITdjffPGoOQzQxpscdZLjkTXjn4d6BTHbX3wkD9nzGbOHYWe55FB_hA/exec";
 var URL_FOTOS = "https://script.google.com/macros/s/AKfycbzqAmczsKY0dzkIlqpIy0Df8wZAZi4qfr8vG582E6I7-yVtsBjiF3CA96xCEPBkumfOSA/exec";
 
@@ -13,36 +12,43 @@ document.addEventListener("DOMContentLoaded", function () {
   prepararInputsFoto();
 });
 
-// --- MÚSICA ---
-// Función para asegurar que el audio se mantenga sonando
-function iniciarMusica() {
-  var audio = document.getElementById("musicaBoda");
-  var boton = document.querySelector(".boton-musica");
+// --- MÚSICA (NUEVA LÓGICA INTELIGENTE) ---
+var audio = document.getElementById("musicaBoda");
+var boton = document.querySelector(".boton-musica");
 
+function reproducirAutonomo() {
+  if (!audio) return;
   audio.play().then(function () {
-    boton.classList.add("activa");
+    if (boton) boton.classList.add("activa");
+    document.removeEventListener('click', reproducirAutonomo);
+    document.removeEventListener('touchstart', reproducirAutonomo);
   }).catch(function (error) {
-    console.log("Esperando interacción del usuario para reproducir audio.");
+    console.log("El navegador bloqueó el autoplay. Esperando clic...");
   });
 }
 
-// 1. Intentar reproducir al cargar la página
-window.addEventListener('load', iniciarMusica);
+// Intentos de inicio automático
+window.addEventListener('load', reproducirAutonomo);
+document.addEventListener('click', reproducirAutonomo);
+document.addEventListener('touchstart', reproducirAutonomo);
 
-// 2. Si el usuario hace clic en cualquier parte, forzar la reproducción (por si el navegador bloqueó el autoplay)
-document.body.addEventListener('click', iniciarMusica, { once: true });
+// Pausar al salir de la página
+document.addEventListener("visibilitychange", function() {
+  if (document.hidden) {
+    if (audio) audio.pause();
+  } else {
+    reproducirAutonomo();
+  }
+});
 
-// Tu función original modificada para solo alternar el estado
+// Control manual del botón
 function controlarMusica() {
-  var audio = document.getElementById("musicaBoda");
-  var boton = document.querySelector(".boton-musica");
-
   if (audio.paused) {
     audio.play();
-    boton.classList.add("activa");
+    if (boton) boton.classList.add("activa");
   } else {
     audio.pause();
-    boton.classList.remove("activa");
+    if (boton) boton.classList.remove("activa");
   }
 }
 
@@ -127,7 +133,6 @@ function confirmarAsistencia() {
   boton.disabled = true;
   boton.innerText = "Enviando...";
 
-  // Apunta a la URL de Asistencia
   fetch(URL_ASISTENCIA, {
     method: "POST",
     mode: "no-cors",
@@ -151,7 +156,6 @@ function mostrarPaginaConfirmacion() {
 
   paginaInvitacion.style.display = "none";
   paginaConfirmacion.classList.remove("oculto");
-
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -203,7 +207,6 @@ function procesarFoto() {
       archivoB64: evento.target.result
     };
 
-    // Apunta a la NUEVA URL de Fotos
     fetch(URL_FOTOS, {
       method: "POST",
       mode: "no-cors",
@@ -213,8 +216,6 @@ function procesarFoto() {
     .then(function () {
       mensaje.innerText = "¡Foto subida con éxito al álbum!";
       mensaje.style.color = "#1f6f56";
-
-      // Revelamos la foto inmediatamente en la galería de la página
       agregarFotoAGaleria(evento.target.result, archivo.name);
       limpiarFotos();
     })
@@ -225,24 +226,18 @@ function procesarFoto() {
     });
   };
 
-  // Esto dispara el onload de arriba
   lector.readAsDataURL(archivo);
 }
 
 function agregarFotoAGaleria(src, nombre) {
   var galeria = document.getElementById("galeriaFotos");
-  
-  // Creamos un contenedor para mantener un buen diseño
   var divWrapper = document.createElement("div");
   var img = document.createElement("img");
 
   img.src = src;
   img.alt = nombre || "Foto subida por invitado";
-  // Puedes añadir una clase aquí si necesitas darle estilos específicos en CSS
-  // img.classList.add("foto-revelada"); 
-
+  
   divWrapper.appendChild(img);
-  // Prepend coloca la foto nueva al principio de la galería
   galeria.prepend(divWrapper); 
 }
 
