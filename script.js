@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   prepararInputsFoto();
 });
 
-// --- MÚSICA (NUEVA LÓGICA INTELIGENTE) ---
+// --- MÚSICA (LÓGICA INTELIGENTE) ---
 var audio = document.getElementById("musicaBoda");
 var boton = document.querySelector(".boton-musica");
 
@@ -20,7 +20,7 @@ function reproducirAutonomo() {
   if (!audio) return;
   audio.play().then(function () {
     if (boton) boton.classList.add("activa");
-    // Si ya logró sonar, removemos los listeners de interacción para no saturar memoria
+    // Removemos los eventos para no saturar la memoria
     document.removeEventListener('click', reproducirAutonomo);
     document.removeEventListener('touchstart', reproducirAutonomo);
   }).catch(function (error) {
@@ -28,22 +28,21 @@ function reproducirAutonomo() {
   });
 }
 
-// 1. Intentos de inicio automático al cargar o al primer clic
+// Intentos de inicio automático al cargar o al primer clic en cualquier lugar
 window.addEventListener('load', reproducirAutonomo);
 document.addEventListener('click', reproducirAutonomo);
-document.addEventListener('touchstart', reproducirAutonomo); // Para teléfonos móviles
+document.addEventListener('touchstart', reproducirAutonomo); 
 
-// 2. Control de Visibilidad: Pausar al salir de la página
+// Control de Visibilidad: Pausar al salir de la página
 document.addEventListener("visibilitychange", function() {
   if (document.hidden) {
     if (audio) audio.pause();
   } else {
-    // Si regresa, forzamos reproducción autónoma
     reproducirAutonomo();
   }
 });
 
-// 3. Control manual del botón
+// Control manual del botón
 function controlarMusica() {
   if (audio.paused) {
     audio.play();
