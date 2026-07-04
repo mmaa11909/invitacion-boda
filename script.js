@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   prepararInputsFoto();
 });
 
-// --- MÚSICA (LÓGICA INTELIGENTE) ---
+// --- MÚSICA CON CONTROL DE VISIBILIDAD INTELIGENTE ---
 var audio = document.getElementById("musicaBoda");
 var boton = document.querySelector(".boton-musica");
 
@@ -20,20 +20,20 @@ function reproducirAutonomo() {
   if (!audio) return;
   audio.play().then(function () {
     if (boton) boton.classList.add("activa");
-    // Removemos los eventos para no saturar la memoria
+    // Desvincular eventos globales una vez que se activa con éxito
     document.removeEventListener('click', reproducirAutonomo);
     document.removeEventListener('touchstart', reproducirAutonomo);
   }).catch(function (error) {
-    console.log("El navegador bloqueó el autoplay. Esperando clic...");
+    console.log("El inicio automático fue restringido temporalmente por el navegador.");
   });
 }
 
-// Intentos de inicio automático al cargar o al primer clic en cualquier lugar
+// Escuchadores automáticos para arrancar la música en el primer toque de pantalla
 window.addEventListener('load', reproducirAutonomo);
 document.addEventListener('click', reproducirAutonomo);
 document.addEventListener('touchstart', reproducirAutonomo); 
 
-// Control de Visibilidad: Pausar al salir de la página
+// Pausar inmediatamente si el usuario minimiza, cambia de pestaña o sale del sitio
 document.addEventListener("visibilitychange", function() {
   if (document.hidden) {
     if (audio) audio.pause();
@@ -42,7 +42,7 @@ document.addEventListener("visibilitychange", function() {
   }
 });
 
-// Control manual del botón
+// Acción del botón manual flotante
 function controlarMusica() {
   if (audio.paused) {
     audio.play();
@@ -89,7 +89,7 @@ function escribirTiempo(id, valor) {
   }
 }
 
-// --- ANIMACIONES (Intersection Observer) ---
+// --- ANIMACIONES FLUIDAS (Intersection Observer) ---
 function prepararAnimaciones() {
   var secciones = document.querySelectorAll(".reveal");
 
@@ -116,7 +116,7 @@ function prepararAnimaciones() {
   });
 }
 
-// --- ASISTENCIA ---
+// --- CONFIRMACIÓN DE ASISTENCIA ---
 function confirmarAsistencia() {
   var nombre = document.getElementById("nombreCompleto").value.trim();
   var boton = document.getElementById("botonConfirmar");
@@ -144,8 +144,8 @@ function confirmarAsistencia() {
     mostrarPaginaConfirmacion();
   })
   .catch(function (error) {
-    console.error("Error en la conexión:", error);
-    alert("Hubo un error al enviar. Intenta de nuevo.");
+    console.error("Error en la petición:", error);
+    alert("No se pudo completar el envío. Inténtalo de nuevo.");
     boton.disabled = false;
     boton.innerText = "Confirmar asistencia";
   });
@@ -160,7 +160,7 @@ function mostrarPaginaConfirmacion() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// --- MANEJO DE FOTOS ---
+// --- ÁLBUM COLABORATIVO DE FOTOS ---
 function prepararInputsFoto() {
   var inputGaleria = document.getElementById("subirFoto");
   var inputCamara = document.getElementById("tomarFoto");
@@ -173,7 +173,7 @@ function prepararInputsFoto() {
 
       if (fotoSeleccionada) {
         var mensaje = document.getElementById("mensajeFoto");
-        mensaje.innerText = "Foto lista: " + fotoSeleccionada.name;
+        mensaje.innerText = "Foto seleccionada: " + fotoSeleccionada.name;
         mensaje.style.color = "#153c68";
       }
     });
@@ -185,20 +185,19 @@ function procesarFoto() {
   var archivo = fotoSeleccionada;
 
   if (!archivo) {
-    mensaje.innerText = "Selecciona una foto o toma una desde tu celular primero.";
+    mensaje.innerText = "Por favor, toma una foto o selecciona una de la galería antes.";
     mensaje.style.color = "#b4334b";
     return;
   }
 
   if (archivo.size > 4000000) {
-    mensaje.innerText = "La foto es muy pesada. Máximo 4MB.";
+    mensaje.innerText = "El archivo excede el límite permitido (Máximo 4MB).";
     mensaje.style.color = "#b4334b";
     return;
   }
 
   var lector = new FileReader();
-
-  mensaje.innerText = "Subiendo archivo a la nube...";
+  mensaje.innerText = "Procesando y subiendo archivo...";
   mensaje.style.color = "#153c68";
 
   lector.onload = function (evento) {
@@ -215,14 +214,14 @@ function procesarFoto() {
       body: JSON.stringify(datos)
     })
     .then(function () {
-      mensaje.innerText = "¡Foto subida con éxito al álbum!";
+      mensaje.innerText = "¡Tu foto ha sido agregada con éxito al álbum!";
       mensaje.style.color = "#1f6f56";
       agregarFotoAGaleria(evento.target.result, archivo.name);
       limpiarFotos();
     })
     .catch(function (error) {
-      console.error("Error al subir:", error);
-      mensaje.innerText = "Error al subir la foto. Intenta otra vez.";
+      console.error("Error al transferir la foto:", error);
+      mensaje.innerText = "Hubo un fallo en la subida. Vuelve a intentarlo.";
       mensaje.style.color = "#b4334b";
     });
   };
@@ -236,7 +235,7 @@ function agregarFotoAGaleria(src, nombre) {
   var img = document.createElement("img");
 
   img.src = src;
-  img.alt = nombre || "Foto subida por invitado";
+  img.alt = nombre || "Imagen compartida";
   
   divWrapper.appendChild(img);
   galeria.prepend(divWrapper); 
