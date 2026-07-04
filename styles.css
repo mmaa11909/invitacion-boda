@@ -426,30 +426,29 @@ footer {
   }
 }
 
-/* --- DECORACIÓN FLORAL EN MOVIMIENTO (NUEVO) --- */
+/* --- DECORACIÓN FLORAL EN MOVIMIENTO (LÍNEAS DIBUJADAS POR CÓDIGO) --- */
 .decoracion-floral {
   position: fixed;
-  top: -10px;
-  width: 180px;
-  height: 250px;
+  top: -20px;
+  width: 220px;
+  height: 300px;
   z-index: 30;
   pointer-events: none; /* Evita que estorben al hacer clic */
-  /* Imagen de flores en tonos azules elegante (puedes cambiar la URL por tu propia imagen png si lo deseas) */
-  background-image: url('https://cdn-icons-png.flaticon.com/512/7518/7518937.png'); 
+  /* Diseño de ramas lineales en formato SVG nativo */
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23153c68' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20,300 Q80,150 180,20' /%3E%3Cpath d='M40,240 C20,220 10,230 20,250 C30,260 40,250 40,240 Z' /%3E%3Cpath d='M70,170 C100,150 110,160 100,180 C90,190 80,180 70,170 Z' /%3E%3Cpath d='M100,110 C80,90 70,100 80,120 C90,130 100,120 100,110 Z' /%3E%3Cpath d='M130,70 C160,50 170,60 160,80 C150,90 140,80 130,70 Z' /%3E%3Cpath d='M160,35 C140,15 130,25 140,45 C150,55 160,45 160,35 Z' /%3E%3C/g%3E%3C/svg%3E"); 
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.15; /* Sutil y elegante */
-  filter: hue-rotate(20deg) saturate(0.8); /* Ajusta un poco al azul marino */
+  opacity: 0.35; /* Color sutil para el fondo */
 }
 
 .esquina-izq {
-  left: -20px;
+  left: -30px;
   transform-origin: top left;
   animation: brisaIzquierda 6s ease-in-out infinite alternate;
 }
 
 .esquina-der {
-  right: -20px;
+  right: -30px;
   transform: scaleX(-1); /* Voltea la imagen para que mire hacia adentro */
   transform-origin: top right;
   animation: brisaDerecha 7s ease-in-out infinite alternate;
@@ -457,18 +456,18 @@ footer {
 
 @keyframes brisaIzquierda {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(5deg); }
+  100% { transform: rotate(8deg); }
 }
 
 @keyframes brisaDerecha {
   0% { transform: scaleX(-1) rotate(0deg); }
-  100% { transform: scaleX(-1) rotate(-5deg); }
+  100% { transform: scaleX(-1) rotate(-8deg); }
 }
 
-/* Evitar que las flores tapen el botón de música */
+/* Ajuste de tamaño para móviles */
 @media (max-width: 768px) {
   .decoracion-floral {
-    width: 120px;
-    height: 180px;
+    width: 140px;
+    height: 200px;
   }
 }
