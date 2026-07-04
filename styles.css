@@ -434,7 +434,7 @@ footer {
   height: 250px;
   z-index: 30;
   pointer-events: none; /* Evita que estorben al hacer clic */
-  /* Imagen de flores en tonos azules elegante */
+  /* Imagen de flores en tonos azules elegante (puedes cambiar la URL por tu propia imagen png si lo deseas) */
   background-image: url('https://cdn-icons-png.flaticon.com/512/7518/7518937.png'); 
   background-size: contain;
   background-repeat: no-repeat;
@@ -465,7 +465,7 @@ footer {
   100% { transform: scaleX(-1) rotate(-5deg); }
 }
 
-/* Ajuste de tamaño para móviles */
+/* Evitar que las flores tapen el botón de música */
 @media (max-width: 768px) {
   .decoracion-floral {
     width: 120px;
