@@ -20,6 +20,7 @@ function reproducirAutonomo() {
   if (!audio) return;
   audio.play().then(function () {
     if (boton) boton.classList.add("activa");
+    // Si ya logró sonar, removemos los listeners de interacción para no saturar memoria
     document.removeEventListener('click', reproducirAutonomo);
     document.removeEventListener('touchstart', reproducirAutonomo);
   }).catch(function (error) {
@@ -27,21 +28,22 @@ function reproducirAutonomo() {
   });
 }
 
-// Intentos de inicio automático
+// 1. Intentos de inicio automático al cargar o al primer clic
 window.addEventListener('load', reproducirAutonomo);
 document.addEventListener('click', reproducirAutonomo);
-document.addEventListener('touchstart', reproducirAutonomo);
+document.addEventListener('touchstart', reproducirAutonomo); // Para teléfonos móviles
 
-// Pausar al salir de la página
+// 2. Control de Visibilidad: Pausar al salir de la página
 document.addEventListener("visibilitychange", function() {
   if (document.hidden) {
     if (audio) audio.pause();
   } else {
+    // Si regresa, forzamos reproducción autónoma
     reproducirAutonomo();
   }
 });
 
-// Control manual del botón
+// 3. Control manual del botón
 function controlarMusica() {
   if (audio.paused) {
     audio.play();
