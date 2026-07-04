@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boda de Ramiro & Janneth</title>
-  <link rel="stylesheet" href="./styles.css?v=4">
+  <link rel="stylesheet" href="./styles.css?v=5">
 </head>
 <body>
 
   <div class="brillo-fondo"></div>
+  <div class="decoracion-floral esquina-izq"></div>
+  <div class="decoracion-floral esquina-der"></div>
 
-  <audio id="musicaBoda" loop autoplay>
+  <audio id="musicaBoda" loop>
     <source src="musica-boda.mp3" type="audio/mpeg">
   </audio>
 
@@ -96,6 +98,25 @@
         <p>Hoy empieza una historia nueva, acompañados por quienes hacen más bonita nuestra vida.</p>
       </section>
 
+      <section class="panel fotos-panel reveal">
+        <p class="etiqueta">Recuerdos</p>
+        <h2>Sube tus fotos</h2>
+        <p>Ayúdanos a capturar cada momento. Selecciona una imagen de tu galería o toma una foto desde tu celular.</p>
+
+        <div class="foto-acciones">
+          <label class="archivo-label" for="subirFoto">Elegir de galería</label>
+          <label class="archivo-label secundario" for="tomarFoto">Tomar foto</label>
+        </div>
+
+        <input type="file" id="subirFoto" accept="image/*">
+        <input type="file" id="tomarFoto" accept="image/*" capture="environment">
+
+        <button type="button" onclick="procesarFoto()">Subir foto al álbum</button>
+
+        <p id="mensajeFoto" class="mensaje-foto"></p>
+        <div id="galeriaFotos" class="galeria-fotos"></div>
+      </section>
+
       <section class="panel reveal">
         <p class="etiqueta">RSVP</p>
         <h2>Confirmar asistencia</h2>
@@ -117,7 +138,7 @@
       <p class="etiqueta">Confirmación recibida</p>
       <h2>Se confirmó tu participación</h2>
       <p>
-        ¡Gracias por acompañarnos en este día tan especial! Aquí tienes las ubicaciones y también puedes subir tus fotos para nuestro recuerdo.
+        ¡Gracias por acompañarnos en este día tan especial! Aquí tienes las ubicaciones de los eventos.
       </p>
     </div>
 
@@ -153,30 +174,11 @@
       </article>
     </div>
 
-    <div class="panel fotos-panel">
-      <p class="etiqueta">Recuerdos</p>
-      <h2>Sube tus fotos</h2>
-      <p>Selecciona una imagen de tu galería o toma una foto desde tu celular.</p>
-
-      <div class="foto-acciones">
-        <label class="archivo-label" for="subirFoto">Elegir de galería</label>
-        <label class="archivo-label secundario" for="tomarFoto">Tomar foto</label>
-      </div>
-
-      <input type="file" id="subirFoto" accept="image/*">
-      <input type="file" id="tomarFoto" accept="image/*" capture="environment">
-
-      <button type="button" onclick="procesarFoto()">Subir foto</button>
-
-      <p id="mensajeFoto" class="mensaje-foto"></p>
-      <div id="galeriaFotos" class="galeria-fotos"></div>
-    </div>
-
     <footer>
       <p>Con amor, Ramiro & Janneth</p>
     </footer>
   </section>
 
-  <script src="./script.js?v=4"></script>
+  <script src="./script.js?v=5"></script>
 </body>
 </html>
