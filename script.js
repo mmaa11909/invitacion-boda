@@ -23,19 +23,17 @@ function generarFloresCayendo() {
   if (!contenedor) return;
   
   const colores = ['#F9D0C4', '#E89B8C', '#EFE4D3']; // Salmon claro, Salmon oscuro, Champagne
-  const cantidad = 15; // Cantidad de pétalos en pantalla
+  const cantidad = 15;
 
   for (let i = 0; i < cantidad; i++) {
     let petalo = document.createElement("div");
     petalo.classList.add("petalo");
     
-    // Propiedades aleatorias para naturalidad
     petalo.style.left = Math.random() * 100 + "vw";
     petalo.style.animationDuration = (Math.random() * 6 + 6) + "s";
     petalo.style.animationDelay = (Math.random() * 5) + "s";
     petalo.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
     
-    // Tamaños variados
     let escala = Math.random() * 0.6 + 0.6;
     petalo.style.transform = `scale(${escala})`;
 
@@ -43,7 +41,7 @@ function generarFloresCayendo() {
   }
 }
 
-// --- CONTROL DE MÚSICA INTELIGENTE ---
+// --- MÚSICA & AUDIO AUTOMÁTICO ---
 var audio = document.getElementById("musicaBoda");
 var boton = document.querySelector(".boton-musica");
 
@@ -58,7 +56,6 @@ function reproducirAutonomo() {
   });
 }
 
-// Intentar reproducir con la primera interacción en la pantalla
 window.addEventListener('load', reproducirAutonomo);
 document.addEventListener('click', reproducirAutonomo);
 document.addEventListener('touchstart', reproducirAutonomo); 
@@ -73,34 +70,44 @@ function controlarMusica() {
   }
 }
 
-/* ==========================================
-   SOLUCIÓN AL AUDIO AL SALIR DE CHROME / MINIMIZAR
-   ========================================== */
+/* =======================================================
+   SOLUCIÓN AL AUDIO EN SEGUNDO PLANO (CHROME / MOBILE)
+   ======================================================= */
 
-// Detecta si la pestaña se vuelve invisible (cambio de app, pantalla bloqueada, etc.)
+// Fuerza la pausa inmediata del reproductor
+function pausarMusicaForzado() {
+  if (audio && !audio.paused) {
+    audio.pause();
+    // NOTA: No quitamos la clase "activa" del botón para recordar que estaba encendida 
+    // y poder reanudarla automáticamente si el usuario regresa a la web.
+  }
+}
+
+// 1. Detecta si el usuario cambia de pestaña, minimiza Chrome o bloquea el teléfono
 document.addEventListener("visibilitychange", function() {
   if (document.hidden) {
-    if (audio) audio.pause();
+    pausarMusicaForzado();
   } else {
-    // Si regresa a la pestaña y la música estaba activada (botón encendido), la reanuda
+    // Reanuda de manera inteligente solo si el botón estaba activo antes de irse
     if (audio && boton && boton.classList.contains("activa")) {
-      audio.play().catch(function(e) { console.log("Auto-reproducción bloqueada al volver."); });
+      audio.play().catch(e => console.log("Auto-play suspendido por el sistema."));
     }
   }
 });
 
-// Detecta pérdida de foco del navegador (para máxima compatibilidad en ciertos celulares)
-window.addEventListener("blur", function() {
-  if (audio) audio.pause();
-});
+// 2. Detecta pérdida total de foco de la ventana (salir de Chrome o abrir otra app)
+window.addEventListener("blur", pausarMusicaForzado);
 
 window.addEventListener("focus", function() {
   if (audio && boton && boton.classList.contains("activa")) {
-    audio.play().catch(function(e) { console.log("Auto-reproducción bloqueada al enfocar."); });
+    audio.play().catch(e => console.log("Auto-play suspendido al enfocar."));
   }
 });
 
-/* ========================================== */
+// 3. Detecta cuando el navegador descarga la página de la memoria ram activa
+window.addEventListener("pagehide", pausarMusicaForzado);
+
+/* ======================================================= */
 
 // --- CONTADOR ---
 function iniciarContador() {
@@ -191,7 +198,7 @@ function confirmarAsistencia() {
 }
 
 function mostrarPaginaConfirmacion() {
-  // Al cambiar de pantalla internamente también apagamos el audio para comodidad del usuario
+  // Al cambiar internamente de pantalla, apagamos la música por comodidad y orden
   if (audio) {
     audio.pause();
     if (boton) boton.classList.remove("activa");
@@ -205,8 +212,6 @@ function mostrarPaginaConfirmacion() {
 // --- ENVIAR MAPAS AL CELULAR (WhatsApp Bolivia) ---
 function enviarMapasCelular() {
   var celular = document.getElementById("celularMapa").value.trim();
-  
-  // Expresión regular para validar números de Bolivia (8 dígitos, inician con 6 o 7)
   var regexBolivia = /^[67]\d{7}$/;
 
   if (!regexBolivia.test(celular)) {
@@ -214,9 +219,10 @@ function enviarMapasCelular() {
     return;
   }
 
+  // Pausamos la música forzadamente porque abriremos la aplicación externa de WhatsApp
+  pausarMusicaForzado();
+
   const mensaje = "¡Hola! Te comparto la información de la boda:\n\n📅 La boda de Ramiro y Janneth es el 18 de septiembre de 2026 a las 15:45 hrs.\n\n📍 Ubicación Iglesia:\nhttps://maps.app.goo.gl/PhbBfAwMVTSq4HfM7\n\n📍 \n\n📍 Ubicación Salón de Convenciones:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6\n\n¡Te \n\n¡Te esperamos!";
-  
-  // Formato internacional para Bolivia (+591)
   const urlWhatsapp = "https://wa.me/591" + celular + "?text=" + encodeURIComponent(mensaje);
   
   window.open(urlWhatsapp, "_blank");
