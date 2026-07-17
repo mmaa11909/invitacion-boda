@@ -208,10 +208,9 @@ main, .pagina-confirmacion {
   backdrop-filter: blur(10px);
 }
 
-/* Ajuste específico para la frase de amor para que resalte bien y se lea claro */
 .mensajes {
-  background: rgba(239, 228, 211, 0.5); /* Champagne oscuro transparente */
-  border: 1px solid rgba(232, 155, 140, 0.3); /* Borde sutil salmón */
+  background: rgba(239, 228, 211, 0.5);
+  border: 1px solid rgba(232, 155, 140, 0.3);
 }
 
 .frase-destacada {
@@ -220,7 +219,7 @@ main, .pagina-confirmacion {
   line-height: 1.5;
   font-style: italic;
   margin: 0;
-  color: var(--azul-profundo); /* Azul oscuro para contraste perfecto */
+  color: var(--azul-profundo);
 }
 
 .aclaracion {
