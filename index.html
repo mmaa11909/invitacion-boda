@@ -4,17 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boda de Ramiro & Janneth</title>
-  <link rel="stylesheet" href="./styles.css?v=7">
+  <link rel="stylesheet" href="./styles.css?v=8">
 </head>
 <body>
 
   <div class="brillo-fondo"></div>
-  <div class="decoracion-floral esquina-izq-sup"></div>
-  <div class="decoracion-floral esquina-der-sup"></div>
-  
-  <div class="decoracion-floral-inferior"></div>
-  <div class="reflejo-luz-prisma"></div>
-  <div class="rayos-destello"></div>
+  <div id="contenedorFlores" class="contenedor-flores"></div>
 
   <audio id="musicaBoda" loop>
     <source src="musica-boda.mp3" type="audio/mpeg">
@@ -24,21 +19,22 @@
 
   <div id="paginaInvitacion">
     <header class="caratula">
-      <img
-        src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85"
-        alt="Novios"
-        class="foto-novios"
-      >
+      <div class="hero-imagen-wrapper">
+        <img
+          src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1600&q=85"
+          alt="Novios mirándose"
+          class="foto-novios-slide"
+        >
+        <div class="velo-color"></div>
+      </div>
 
-      <div class="velo"></div>
-
-      <div class="hero-contenido">
+      <div class="hero-contenido reveal">
         <p class="texto-superior">Nuestra boda</p>
         <h1>Ramiro<br>& Janneth</h1>
         <p class="mensaje-amor">
           Hay momentos que se sueñan toda la vida, y este queremos compartirlo contigo.
         </p>
-        <div class="fecha-boda">18 de septiembre 2026 · 19:30 hrs</div>
+        <div class="fecha-boda">18 de septiembre 2026 · 16:30 hrs</div>
       </div>
     </header>
 
@@ -78,38 +74,38 @@
 
         <div class="programa">
           <div>
-            <strong>19:30</strong>
+            <strong>16:30</strong>
             <p>Ceremonia</p>
           </div>
           <div>
-            <strong>20:30</strong>
+            <strong>17:30</strong>
             <p>Recepción</p>
           </div>
           <div>
-            <strong>21:00</strong>
+            <strong>18:30</strong>
             <p>Cena y brindis</p>
           </div>
           <div>
-            <strong>22:30</strong>
+            <strong>20:00</strong>
             <p>Baile</p>
           </div>
         </div>
       </section>
 
       <section class="mensajes reveal">
-        <h2>Mensajes de amor</h2>
-        <p>El amor verdadero se elige, se cuida y se celebra.</p>
-        <p>Hoy empieza una historia nueva, acompañados por quienes hacen más bonita nuestra vida.</p>
+        <p class="frase-destacada">
+          "El amor verdadero se elige, se cuida y se celebra. Hoy empieza una historia nueva, acompañados por quienes hacen más bonita nuestra vida."
+        </p>
       </section>
 
       <section class="panel fotos-panel reveal">
         <p class="etiqueta">Recuerdos</p>
         <h2>Sube tus fotos</h2>
-        <p>Ayúdanos a capturar cada momento. Selecciona una imagen de tu galería o toma una foto desde tu celular.</p>
+        <p>Ayúdanos a capturar cada momento a partir del día de nuestra boda. Selecciona una imagen de tu galería o toma una foto desde tu celular.</p>
 
         <div class="foto-acciones">
-          <label class="archivo-label" for="subirFoto">Elegir de galería</label>
-          <label class="archivo-label secundario" for="tomarFoto">Tomar foto</label>
+          <label class="archivo-label" onclick="verificarFechaFoto(event)" for="subirFoto">Elegir de galería</label>
+          <label class="archivo-label secundario" onclick="verificarFechaFoto(event)" for="tomarFoto">Tomar foto</label>
         </div>
 
         <input type="file" id="subirFoto" accept="image/*">
@@ -140,10 +136,19 @@
   <section id="paginaConfirmacion" class="pagina-confirmacion oculto">
     <div class="confirmacion-hero">
       <p class="etiqueta">Confirmación recibida</p>
-      <h2>Se confirmó tu participación</h2>
+      <h2>¡Te esperamos!</h2>
       <p>
-        ¡Gracias por acompañarnos en este día tan especial! Aquí tienes las ubicaciones de los eventos.
+        Gracias por acompañarnos en este día tan especial. Aquí tienes las herramientas para que no te pierdas de nada.
       </p>
+
+      <div class="acciones-post-confirmacion">
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Ramiro+y+Janneth&dates=20260918T203000Z/20260919T020000Z&details=¡Acompáñanos+en+nuestra+boda!&location=Cochabamba" target="_blank" class="boton-util">
+          📅 Añadir a Google Calendar
+        </a>
+        <button onclick="compartirMapas()" class="boton-util secundario">
+          📲 Enviarme los mapas
+        </button>
+      </div>
     </div>
 
     <div class="mapas">
@@ -152,18 +157,13 @@
         <p>Ceremonia religiosa</p>
 
         <iframe 
-        title="Mapa de la iglesia"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1127.8764239176949!2d-66.28188852220772!3d-17.3871757666115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e30b75aa9df8b7%3A0x704745ff1b5c1b06!2sSantisima%20Trinidad!5e1!3m2!1ses!2sbo!4v1784246840403!5m2!1ses!2sbo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" 
-        width="600" 
-        height="450" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="strict-origin-when-cross-origin">
+          title="Mapa de la iglesia"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1127.8764239176949!2d-66.28188852220772!3d-17.3871757666115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e30b75aa9df8b7%3A0x704745ff1b5c1b06!2sSantisima%20Trinidad!5e1!3m2!1ses!2sbo!4v1784246840403!5m2!1ses!2sbo" 
+          width="100%" height="230" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
 
         <a class="boton-link" href="https://maps.app.goo.gl/PhbBfAwMVTSq4HfM7" target="_blank">
-          Abrir mapa
+          Abrir en la app
         </a>
       </article>
 
@@ -172,18 +172,13 @@
         <p>Recepción y celebración</p>
 
         <iframe 
-        title="Mapa del Centro de Convenciones"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576550.8830327634!2d-66.40967744692608!3d-17.67692788957749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e30b79d780632f%3A0x17bed94d35fc6ab1!2sLA%20VI%C3%91A%20(Quillacollo)!5e1!3m2!1ses!2sbo!4v1784246533184!5m2!1ses!2sbo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" 
-        width="600" 
-        height="450" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="strict-origin-when-cross-origin">
+          title="Mapa del Centro de Convenciones"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576550.8830327634!2d-66.40967744692608!3d-17.67692788957749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e30b79d780632f%3A0x17bed94d35fc6ab1!2sLA%20VI%C3%91A%20(Quillacollo)!5e1!3m2!1ses!2sbo!4v1784246533184!5m2!1ses!2sbo" 
+          width="100%" height="230" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
 
-        <a class="boton-link" href="https://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6">
-          Abrir mapa
+        <a class="boton-link" href="https://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6" target="_blank">
+          Abrir en la app
         </a>
       </article>
     </div>
@@ -193,6 +188,6 @@
     </footer>
   </section>
 
-  <script src="./script.js?v=7"></script>
+  <script src="./script.js?v=8"></script>
 </body>
 </html>
