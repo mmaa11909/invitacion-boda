@@ -43,7 +43,7 @@ function generarFloresCayendo() {
   }
 }
 
-// --- MÚSICA ---
+// --- CONTROL DE MÚSICA INTELIGENTE ---
 var audio = document.getElementById("musicaBoda");
 var boton = document.querySelector(".boton-musica");
 
@@ -58,6 +58,7 @@ function reproducirAutonomo() {
   });
 }
 
+// Intentar reproducir con la primera interacción en la pantalla
 window.addEventListener('load', reproducirAutonomo);
 document.addEventListener('click', reproducirAutonomo);
 document.addEventListener('touchstart', reproducirAutonomo); 
@@ -71,6 +72,35 @@ function controlarMusica() {
     if (boton) boton.classList.remove("activa");
   }
 }
+
+/* ==========================================
+   SOLUCIÓN AL AUDIO AL SALIR DE CHROME / MINIMIZAR
+   ========================================== */
+
+// Detecta si la pestaña se vuelve invisible (cambio de app, pantalla bloqueada, etc.)
+document.addEventListener("visibilitychange", function() {
+  if (document.hidden) {
+    if (audio) audio.pause();
+  } else {
+    // Si regresa a la pestaña y la música estaba activada (botón encendido), la reanuda
+    if (audio && boton && boton.classList.contains("activa")) {
+      audio.play().catch(function(e) { console.log("Auto-reproducción bloqueada al volver."); });
+    }
+  }
+});
+
+// Detecta pérdida de foco del navegador (para máxima compatibilidad en ciertos celulares)
+window.addEventListener("blur", function() {
+  if (audio) audio.pause();
+});
+
+window.addEventListener("focus", function() {
+  if (audio && boton && boton.classList.contains("activa")) {
+    audio.play().catch(function(e) { console.log("Auto-reproducción bloqueada al enfocar."); });
+  }
+});
+
+/* ========================================== */
 
 // --- CONTADOR ---
 function iniciarContador() {
@@ -132,7 +162,7 @@ function prepararAnimaciones() {
 // --- CONFIRMACIÓN DE ASISTENCIA ---
 function confirmarAsistencia() {
   var nombre = document.getElementById("nombreCompleto").value.trim();
-  var boton = document.getElementById("botonConfirmar");
+  var botonConfirmar = document.getElementById("botonConfirmar");
 
   if (nombre === "") {
     alert("Por favor escribe tu nombre completo.");
@@ -141,8 +171,8 @@ function confirmarAsistencia() {
 
   var datos = { tipo: "asistencia", nombre: nombre };
 
-  boton.disabled = true;
-  boton.innerText = "Enviando...";
+  botonConfirmar.disabled = true;
+  botonConfirmar.innerText = "Enviando...";
 
   fetch(URL_ASISTENCIA, {
     method: "POST",
@@ -155,12 +185,13 @@ function confirmarAsistencia() {
   })
   .catch(function (error) {
     alert("No se pudo enviar. Inténtalo de nuevo.");
-    boton.disabled = false;
-    boton.innerText = "Confirmar asistencia";
+    botonConfirmar.disabled = false;
+    botonConfirmar.innerText = "Confirmar asistencia";
   });
 }
 
 function mostrarPaginaConfirmacion() {
+  // Al cambiar de pantalla internamente también apagamos el audio para comodidad del usuario
   if (audio) {
     audio.pause();
     if (boton) boton.classList.remove("activa");
