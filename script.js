@@ -2,7 +2,11 @@
 var URL_ASISTENCIA = "https://script.google.com/macros/s/AKfycbwN4p7bHI2VbinITdjffPGoOQzQxpscdZLjkTXjn4d6BTHbX3wkD9nzGbOHYWe55FB_hA/exec";
 var URL_FOTOS = "https://script.google.com/macros/s/AKfycbzqAmczsKY0dzkIlqpIy0Df8wZAZi4qfr8vG582E6I7-yVtsBjiF3CA96xCEPBkumfOSA/exec";
 
-var FECHA_BODA = new Date("2026-09-18T19:30:00-04:00");
+// HORA ACTUALIZADA: 16:30 hrs
+var FECHA_BODA = new Date("2026-09-18T16:30:00-04:00");
+// HORA HABILITACIÓN FOTOS: 16:00 hrs del día de la boda
+var FECHA_HABILITACION_FOTOS = new Date("2026-09-18T16:00:00-04:00"); 
+
 var fotoSeleccionada = null;
 
 // --- INICIALIZACIÓN ---
@@ -10,9 +14,36 @@ document.addEventListener("DOMContentLoaded", function () {
   iniciarContador();
   prepararAnimaciones();
   prepararInputsFoto();
+  generarFloresCayendo();
 });
 
-// --- MÚSICA CON CONTROL DE VISIBILIDAD INTELIGENTE ---
+// --- GENERAR FLORES ---
+function generarFloresCayendo() {
+  const contenedor = document.getElementById("contenedorFlores");
+  if (!contenedor) return;
+  
+  const colores = ['#F9D0C4', '#E89B8C', '#EFE4D3']; // Salmon claro, Salmon oscuro, Champagne
+  const cantidad = 15; // Cantidad de pétalos en pantalla
+
+  for (let i = 0; i < cantidad; i++) {
+    let petalo = document.createElement("div");
+    petalo.classList.add("petalo");
+    
+    // Propiedades aleatorias para naturalidad
+    petalo.style.left = Math.random() * 100 + "vw";
+    petalo.style.animationDuration = (Math.random() * 6 + 6) + "s";
+    petalo.style.animationDelay = (Math.random() * 5) + "s";
+    petalo.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+    
+    // Tamaños variados
+    let escala = Math.random() * 0.6 + 0.6;
+    petalo.style.transform = `scale(${escala})`;
+
+    contenedor.appendChild(petalo);
+  }
+}
+
+// --- MÚSICA ---
 var audio = document.getElementById("musicaBoda");
 var boton = document.querySelector(".boton-musica");
 
@@ -20,29 +51,17 @@ function reproducirAutonomo() {
   if (!audio) return;
   audio.play().then(function () {
     if (boton) boton.classList.add("activa");
-    // Desvincular eventos globales una vez que se activa con éxito
     document.removeEventListener('click', reproducirAutonomo);
     document.removeEventListener('touchstart', reproducirAutonomo);
   }).catch(function (error) {
-    console.log("El inicio automático fue restringido temporalmente por el navegador.");
+    console.log("Esperando interacción para música.");
   });
 }
 
-// Escuchadores automáticos para arrancar la música en el primer toque de pantalla
 window.addEventListener('load', reproducirAutonomo);
 document.addEventListener('click', reproducirAutonomo);
 document.addEventListener('touchstart', reproducirAutonomo); 
 
-// Pausar inmediatamente si el usuario minimiza, cambia de pestaña o sale del sitio
-document.addEventListener("visibilitychange", function() {
-  if (document.hidden) {
-    if (audio) audio.pause();
-  } else {
-    reproducirAutonomo();
-  }
-});
-
-// Acción del botón manual flotante
 function controlarMusica() {
   if (audio.paused) {
     audio.play();
@@ -89,14 +108,12 @@ function escribirTiempo(id, valor) {
   }
 }
 
-// --- ANIMACIONES FLUIDAS (Intersection Observer) ---
+// --- ANIMACIONES FLUIDAS (Scroll) ---
 function prepararAnimaciones() {
   var secciones = document.querySelectorAll(".reveal");
 
   if (!("IntersectionObserver" in window)) {
-    secciones.forEach(function (seccion) {
-      seccion.classList.add("visible");
-    });
+    secciones.forEach(s => s.classList.add("visible"));
     return;
   }
 
@@ -107,13 +124,9 @@ function prepararAnimaciones() {
         observador.unobserve(entrada.target);
       }
     });
-  }, {
-    threshold: 0.18
-  });
+  }, { threshold: 0.15 });
 
-  secciones.forEach(function (seccion) {
-    observador.observe(seccion);
-  });
+  secciones.forEach(s => observador.observe(s));
 }
 
 // --- CONFIRMACIÓN DE ASISTENCIA ---
@@ -126,10 +139,7 @@ function confirmarAsistencia() {
     return;
   }
 
-  var datos = {
-    tipo: "asistencia",
-    nombre: nombre
-  };
+  var datos = { tipo: "asistencia", nombre: nombre };
 
   boton.disabled = true;
   boton.innerText = "Enviando...";
@@ -144,61 +154,84 @@ function confirmarAsistencia() {
     mostrarPaginaConfirmacion();
   })
   .catch(function (error) {
-    console.error("Error en la petición:", error);
-    alert("No se pudo completar el envío. Inténtalo de nuevo.");
+    alert("No se pudo enviar. Inténtalo de nuevo.");
     boton.disabled = false;
     boton.innerText = "Confirmar asistencia";
   });
 }
 
 function mostrarPaginaConfirmacion() {
-  var paginaInvitacion = document.getElementById("paginaInvitacion");
-  var paginaConfirmacion = document.getElementById("paginaConfirmacion");
-
-  paginaInvitacion.style.display = "none";
-  paginaConfirmacion.classList.remove("oculto");
+  document.getElementById("paginaInvitacion").style.display = "none";
+  document.getElementById("paginaConfirmacion").classList.remove("oculto");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// --- ÁLBUM COLABORATIVO DE FOTOS ---
+// --- BOTÓN ENVIARSE LOS MAPAS ---
+function compartirMapas() {
+  const mensaje = "Hola, guardo la información:\nLa boda de Ramiro y Janneth es el 18 de septiembre a las 16:30 hrs.\n\n📍 Iglesia:\nhttps://maps.app.goo.gl/PhbBfAwMVTSq4HfM7\n\n📍 Recepción:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6";
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Mapas Boda Ramiro y Janneth',
+      text: mensaje
+    }).catch(console.error);
+  } else {
+    // Fallback abriendo WhatsApp
+    window.open("https://wa.me/?text=" + encodeURIComponent(mensaje), "_blank");
+  }
+}
+
+// --- LÓGICA DE FOTOS (Con restricción de fecha) ---
+function verificarFechaFoto(evento) {
+  var ahora = new Date();
+  if (ahora < FECHA_HABILITACION_FOTOS) {
+    evento.preventDefault(); // Evita que se abra el selector de archivos
+    alert("¡Guarda tus mejores ángulos! La subida de fotos se habilitará el día de la boda (18 de septiembre a las 16:00 hrs).");
+  }
+}
+
 function prepararInputsFoto() {
   var inputGaleria = document.getElementById("subirFoto");
   var inputCamara = document.getElementById("tomarFoto");
 
   [inputGaleria, inputCamara].forEach(function (input) {
     if (!input) return;
-
     input.addEventListener("change", function () {
       fotoSeleccionada = input.files[0] || null;
-
       if (fotoSeleccionada) {
         var mensaje = document.getElementById("mensajeFoto");
-        mensaje.innerText = "Foto seleccionada: " + fotoSeleccionada.name;
-        mensaje.style.color = "#153c68";
+        mensaje.innerText = "Foto lista: " + fotoSeleccionada.name;
+        mensaje.style.color = "var(--azul-profundo)";
       }
     });
   });
 }
 
 function procesarFoto() {
+  var ahora = new Date();
   var mensaje = document.getElementById("mensajeFoto");
-  var archivo = fotoSeleccionada;
 
+  if (ahora < FECHA_HABILITACION_FOTOS) {
+    mensaje.innerText = "La subida se habilita el 18 de septiembre a las 16:00 hrs.";
+    mensaje.style.color = "var(--salmon)";
+    return;
+  }
+
+  var archivo = fotoSeleccionada;
   if (!archivo) {
-    mensaje.innerText = "Por favor, toma una foto o selecciona una de la galería antes.";
-    mensaje.style.color = "#b4334b";
+    mensaje.innerText = "Por favor, selecciona una foto primero.";
+    mensaje.style.color = "var(--salmon)";
     return;
   }
 
   if (archivo.size > 4000000) {
-    mensaje.innerText = "El archivo excede el límite permitido (Máximo 4MB).";
-    mensaje.style.color = "#b4334b";
+    mensaje.innerText = "El archivo es muy pesado (Máximo 4MB).";
     return;
   }
 
   var lector = new FileReader();
-  mensaje.innerText = "Procesando y subiendo archivo...";
-  mensaje.style.color = "#153c68";
+  mensaje.innerText = "Subiendo recuerdo...";
+  mensaje.style.color = "var(--azul-acento)";
 
   lector.onload = function (evento) {
     var datos = {
@@ -214,15 +247,14 @@ function procesarFoto() {
       body: JSON.stringify(datos)
     })
     .then(function () {
-      mensaje.innerText = "¡Tu foto ha sido agregada con éxito al álbum!";
-      mensaje.style.color = "#1f6f56";
+      mensaje.innerText = "¡Foto agregada al álbum!";
+      mensaje.style.color = "green";
       agregarFotoAGaleria(evento.target.result, archivo.name);
       limpiarFotos();
     })
-    .catch(function (error) {
-      console.error("Error al transferir la foto:", error);
-      mensaje.innerText = "Hubo un fallo en la subida. Vuelve a intentarlo.";
-      mensaje.style.color = "#b4334b";
+    .catch(function () {
+      mensaje.innerText = "Fallo en la subida. Vuelve a intentarlo.";
+      mensaje.style.color = "red";
     });
   };
 
@@ -231,21 +263,14 @@ function procesarFoto() {
 
 function agregarFotoAGaleria(src, nombre) {
   var galeria = document.getElementById("galeriaFotos");
-  var divWrapper = document.createElement("div");
   var img = document.createElement("img");
-
   img.src = src;
-  img.alt = nombre || "Imagen compartida";
-  
-  divWrapper.appendChild(img);
-  galeria.prepend(divWrapper); 
+  img.alt = "Recuerdo boda";
+  galeria.prepend(img); 
 }
 
 function limpiarFotos() {
   fotoSeleccionada = null;
-  var inputGaleria = document.getElementById("subirFoto");
-  var inputCamara = document.getElementById("tomarFoto");
-  
-  if(inputGaleria) inputGaleria.value = "";
-  if(inputCamara) inputCamara.value = "";
+  if(document.getElementById("subirFoto")) document.getElementById("subirFoto").value = "";
+  if(document.getElementById("tomarFoto")) document.getElementById("tomarFoto").value = "";
 }
