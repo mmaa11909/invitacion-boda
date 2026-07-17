@@ -3,7 +3,7 @@
 }
 
 :root {
-  /* Nueva Paleta Balanceada */
+  /* Paleta Balanceada */
   --champagne: #FDFBF7;
   --champagne-oscuro: #EFE4D3;
   --salmon: #E89B8C;
@@ -188,7 +188,7 @@ h2 {
   backdrop-filter: blur(5px);
   font-size: 1rem;
   font-weight: 700;
-  box-shadow: 0 0 20px rgba(232, 155, 140, 0.4); /* Brillo salmón en la fecha */
+  box-shadow: 0 0 20px rgba(232, 155, 140, 0.4);
 }
 
 main, .pagina-confirmacion {
@@ -196,7 +196,7 @@ main, .pagina-confirmacion {
   margin: 0 auto;
 }
 
-.panel, .mensajes, .contador, .confirmacion-hero, .mapa-card {
+.panel, .confirmacion-hero, .mapa-card {
   position: relative;
   margin: 32px auto;
   padding: 36px 24px;
@@ -206,6 +206,21 @@ main, .pagina-confirmacion {
   box-shadow: 0 15px 35px var(--sombra);
   text-align: center;
   backdrop-filter: blur(10px);
+}
+
+/* Ajuste específico para la frase de amor para que resalte bien y se lea claro */
+.mensajes {
+  background: rgba(239, 228, 211, 0.5); /* Champagne oscuro transparente */
+  border: 1px solid rgba(232, 155, 140, 0.3); /* Borde sutil salmón */
+}
+
+.frase-destacada {
+  font-family: Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+  color: var(--azul-profundo); /* Azul oscuro para contraste perfecto */
 }
 
 .aclaracion {
@@ -280,10 +295,18 @@ main, .pagina-confirmacion {
   background: linear-gradient(135deg, var(--champagne), var(--salmon-claro));
 }
 
-input[type="text"] {
+.contenedor-envio-manual {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+input[type="text"], input[type="tel"] {
   width: 100%;
   min-height: 55px;
-  margin: 15px 0;
+  margin: 8px 0;
   padding: 0 20px;
   border: 2px solid var(--champagne-oscuro);
   border-radius: 16px;
@@ -293,7 +316,7 @@ input[type="text"] {
   transition: border-color 0.3s;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="tel"]:focus {
   outline: none;
   border-color: var(--salmon);
 }
@@ -326,19 +349,6 @@ input[type="file"] {
 .programa p {
   margin: 5px 0 0;
   color: var(--azul-acento);
-}
-
-.mensajes {
-  background: linear-gradient(135deg, var(--azul-profundo), var(--tinta));
-  color: var(--champagne);
-}
-
-.frase-destacada {
-  font-family: Georgia, serif;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  font-style: italic;
-  margin: 0;
 }
 
 .foto-acciones {
@@ -394,6 +404,15 @@ footer {
   font-size: 1.5rem;
 }
 
+footer .creditos {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--azul-acento);
+  opacity: 0.8;
+  margin-top: 12px;
+  letter-spacing: 1px;
+}
+
 /* --- Animaciones de aparición (Scroll) --- */
 .reveal {
   opacity: 0;
@@ -414,4 +433,7 @@ footer {
 @media (min-width: 768px) {
   .contador, .programa { grid-template-columns: repeat(4, 1fr); }
   .mapas, .foto-acciones, .galeria-fotos, .acciones-post-confirmacion { grid-template-columns: repeat(2, 1fr); }
+  .contenedor-envio-manual { flex-direction: row; align-items: center; }
+  .contenedor-envio-manual input[type="tel"] { margin: 0; width: 45%; }
+  .contenedor-envio-manual button { margin: 0; width: 55%; }
 }
