@@ -2,10 +2,10 @@
 var URL_ASISTENCIA = "https://script.google.com/macros/s/AKfycbwN4p7bHI2VbinITdjffPGoOQzQxpscdZLjkTXjn4d6BTHbX3wkD9nzGbOHYWe55FB_hA/exec";
 var URL_FOTOS = "https://script.google.com/macros/s/AKfycbzqAmczsKY0dzkIlqpIy0Df8wZAZi4qfr8vG582E6I7-yVtsBjiF3CA96xCEPBkumfOSA/exec";
 
-// HORA ACTUALIZADA: 16:30 hrs
-var FECHA_BODA = new Date("2026-09-18T16:30:00-04:00");
-// HORA HABILITACIÓN FOTOS: 16:00 hrs del día de la boda
-var FECHA_HABILITACION_FOTOS = new Date("2026-09-18T16:00:00-04:00"); 
+// HORA ACTUALIZADA: 15:45 hrs (3:45 PM)
+var FECHA_BODA = new Date("2026-09-18T15:45:00-04:00");
+// HORA HABILITACIÓN FOTOS: 15:45 hrs del día de la boda
+var FECHA_HABILITACION_FOTOS = new Date("2026-09-18T15:45:00-04:00"); 
 
 var fotoSeleccionada = null;
 
@@ -161,32 +161,42 @@ function confirmarAsistencia() {
 }
 
 function mostrarPaginaConfirmacion() {
+  if (audio) {
+    audio.pause();
+    if (boton) boton.classList.remove("activa");
+  }
+
   document.getElementById("paginaInvitacion").style.display = "none";
   document.getElementById("paginaConfirmacion").classList.remove("oculto");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// --- BOTÓN ENVIARSE LOS MAPAS ---
-function compartirMapas() {
-  const mensaje = "Hola, guardo la información:\nLa boda de Ramiro y Janneth es el 18 de septiembre a las 16:30 hrs.\n\n📍 Iglesia:\nhttps://maps.app.goo.gl/PhbBfAwMVTSq4HfM7\n\n📍 Recepción:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6";
+// --- ENVIAR MAPAS AL CELULAR (WhatsApp Bolivia) ---
+function enviarMapasCelular() {
+  var celular = document.getElementById("celularMapa").value.trim();
   
-  if (navigator.share) {
-    navigator.share({
-      title: 'Mapas Boda Ramiro y Janneth',
-      text: mensaje
-    }).catch(console.error);
-  } else {
-    // Fallback abriendo WhatsApp
-    window.open("https://wa.me/?text=" + encodeURIComponent(mensaje), "_blank");
+  // Expresión regular para validar números de Bolivia (8 dígitos, inician con 6 o 7)
+  var regexBolivia = /^[67]\d{7}$/;
+
+  if (!regexBolivia.test(celular)) {
+    alert("Por favor, ingresa un número de celular válido de Bolivia (8 dígitos que comiencen con 6 o 7).");
+    return;
   }
+
+  const mensaje = "¡Hola! Te comparto la información de la boda:\n\n📅 La boda de Ramiro y Janneth es el 18 de septiembre de 2026 a las 15:45 hrs.\n\n📍 Ubicación Iglesia:\nhttps://maps.app.goo.gl/PhbBfAwMVTSq4HfM7\n\n📍 \n\n📍 Ubicación Salón de Convenciones:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6\n\n¡Te \n\n¡Te esperamos!";
+  
+  // Formato internacional para Bolivia (+591)
+  const urlWhatsapp = "https://wa.me/591" + celular + "?text=" + encodeURIComponent(mensaje);
+  
+  window.open(urlWhatsapp, "_blank");
 }
 
 // --- LÓGICA DE FOTOS (Con restricción de fecha) ---
 function verificarFechaFoto(evento) {
   var ahora = new Date();
   if (ahora < FECHA_HABILITACION_FOTOS) {
-    evento.preventDefault(); // Evita que se abra el selector de archivos
-    alert("¡Guarda tus mejores ángulos! La subida de fotos se habilitará el día de la boda (18 de septiembre a las 16:00 hrs).");
+    evento.preventDefault(); 
+    alert("¡Guarda tus mejores ángulos! La subida de fotos se habilitará el día de la boda (18 de septiembre a las 15:45 hrs).");
   }
 }
 
@@ -212,7 +222,7 @@ function procesarFoto() {
   var mensaje = document.getElementById("mensajeFoto");
 
   if (ahora < FECHA_HABILITACION_FOTOS) {
-    mensaje.innerText = "La subida se habilita el 18 de septiembre a las 16:00 hrs.";
+    mensaje.innerText = "La subida se habilita el 18 de septiembre a las 15:45 hrs.";
     mensaje.style.color = "var(--salmon)";
     return;
   }
