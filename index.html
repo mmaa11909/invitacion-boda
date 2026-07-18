@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boda de Ramiro & Janneth</title>
-  <link rel="stylesheet" href="./styles.css?v=11">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
@@ -34,11 +37,20 @@
         <p class="mensaje-amor">
           Hay momentos que se sueñan toda la vida, y este queremos compartirlo contigo.
         </p>
-        <div class="fecha-boda">18 de septiembre 2026 · 15:45 hrs</div>
       </div>
     </header>
 
     <main>
+      <section class="panel fecha-panel reveal">
+        <div class="fecha-estilo-img1">
+          <p class="dia-semana">V I E R N E S</p>
+          <p class="dia-numero">18</p>
+          <p class="mes-anio">SEPTIEMBRE 2026</p>
+          <p class="hora-boda">15:45 hrs.</p>
+          <div class="ornamento">❦</div>
+        </div>
+      </section>
+
       <section class="panel reveal">
         <p class="etiqueta">Con amor</p>
         <h2>Estás invitado</h2>
@@ -49,22 +61,25 @@
         <p class="aclaracion">Recepción exclusiva para adultos. Agradecemos tu comprensión.</p>
       </section>
 
-      <section class="contador reveal">
-        <div>
-          <span id="dias">00</span>
-          <p>Días</p>
-        </div>
-        <div>
-          <span id="horas">00</span>
-          <p>Horas</p>
-        </div>
-        <div>
-          <span id="minutos">00</span>
-          <p>Minutos</p>
-        </div>
-        <div>
-          <span id="segundos">00</span>
-          <p>Segundos</p>
+      <section class="panel contador-panel reveal">
+        <p class="contador-titulo">FALTAN</p>
+        <div class="contador-inline">
+          <div class="tiempo-bloque">
+            <span id="dias">00</span>
+            <p>DÍAS</p>
+          </div>
+          <div class="tiempo-bloque">
+            <span id="horas">00</span>
+            <p>HRS.</p>
+          </div>
+          <div class="tiempo-bloque">
+            <span id="minutos">00</span>
+            <p>MIN.</p>
+          </div>
+          <div class="tiempo-bloque">
+            <span id="segundos">00</span>
+            <p>SEG.</p>
+          </div>
         </div>
       </section>
 
@@ -124,7 +139,6 @@
 
         <form id="formularioAsistencia">
           <input type="text" id="nombreCompleto" placeholder="Nombre completo" required>
-
           <button id="botonConfirmar" type="button" onclick="confirmarAsistencia()">
             Confirmar asistencia
           </button>
@@ -137,9 +151,7 @@
     <div class="confirmacion-hero">
       <p class="etiqueta">Confirmación recibida</p>
       <h2>¡Te esperamos!</h2>
-      <p>
-        Gracias por acompañarnos en este día tan especial. Aquí tienes las herramientas para guardar toda la información.
-      </p>
+      <p>Gracias por acompañarnos en este día tan especial. Aquí tienes las herramientas para guardar toda la información.</p>
 
       <div class="acciones-post-confirmacion">
         <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Ramiro+y+Janneth&dates=20260918T194500Z/20260919T020000Z&details=¡Acompáñanos+en+nuestra+boda!+Recuerda+que+es+el+18+de+septiembre+a+las+15:45.&location=Cochabamba&remind=2880" target="_blank" class="boton-util" onclick="pausarMusicaForzado()">
@@ -149,7 +161,7 @@
         <div class="contenedor-envio-manual">
           <input type="tel" id="celularMapa" placeholder="Nro de Celular (Ej. 76543210)" maxlength="8">
           <button onclick="enviarMapasCelular()" class="boton-util secundario">
-            📲 Enviar mapas a mi WhatsApp
+            📲 Enviar mapas a WhatsApp
           </button>
         </div>
       </div>
@@ -159,13 +171,11 @@
       <article class="mapa-card">
         <h3>Iglesia</h3>
         <p>Ceremonia religiosa</p>
-
         <iframe 
           title="Mapa de la iglesia"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1127.8764239176949!2d-66.28188852220772!3d-17.3871757666115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e30b75aa9df8b7%3A0x704745ff1b5c1b06!2sSantisima%20Trinidad!5e1!3m2!1ses!2sbo!4v1784246840403!5m2!1ses!2sbo" 
           width="100%" height="230" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
-
         <a class="boton-link" href="https://maps.app.goo.gl/PhbBfAwMVTSq4HfM7" target="_blank" onclick="pausarMusicaForzado()">
           Abrir en la app
         </a>
@@ -174,13 +184,11 @@
       <article class="mapa-card">
         <h3>Centro de convenciones</h3>
         <p>Recepción y celebración</p>
-
         <iframe 
           title="Mapa del Centro de Convenciones"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576550.8830327634!2d-66.40967744692608!3d-17.67692788957749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e30b79d780632f%3A0x17bed94d35fc6ab1!2sLA%20VI%C3%91A%20(Quillacollo)!5e1!3m2!1ses!2sbo!4v1784246533184!5m2!1ses!2sbo" 
           width="100%" height="230" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
-
         <a class="boton-link" href="https://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6" target="_blank" onclick="pausarMusicaForzado()">
           Abrir en la app
         </a>
@@ -193,6 +201,6 @@
     </footer>
   </section>
 
-  <script src="./script.js?v=11"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
