@@ -2,9 +2,9 @@
 var URL_ASISTENCIA = "https://script.google.com/macros/s/AKfycbwN4p7bHI2VbinITdjffPGoOQzQxpscdZLjkTXjn4d6BTHbX3wkD9nzGbOHYWe55FB_hA/exec";
 var URL_FOTOS = "https://script.google.com/macros/s/AKfycbzqAmczsKY0dzkIlqpIy0Df8wZAZi4qfr8vG582E6I7-yVtsBjiF3CA96xCEPBkumfOSA/exec";
 
-// HORA ACTUALIZADA: 15:45 hrs (3:45 PM)
+// HORA ACTUALIZADA: 15:45 hrs (3:45 PM) - Día 18 de septiembre es Viernes
 var FECHA_BODA = new Date("2026-09-18T15:45:00-04:00");
-// HORA HABILITACIÓN FOTOS: 15:45 hrs del día de la boda
+// HORA HABILITACIÓN FOTOS
 var FECHA_HABILITACION_FOTOS = new Date("2026-09-18T15:45:00-04:00"); 
 
 var fotoSeleccionada = null;
@@ -22,7 +22,7 @@ function generarFloresCayendo() {
   const contenedor = document.getElementById("contenedorFlores");
   if (!contenedor) return;
   
-  const colores = ['#F9D0C4', '#E89B8C', '#EFE4D3']; // Salmon claro, Salmon oscuro, Champagne
+  const colores = ['#FAD6D0', '#E88B7B', '#F5F0E1']; // Tonos de la nueva paleta
   const cantidad = 15;
 
   for (let i = 0; i < cantidad; i++) {
@@ -73,41 +73,29 @@ function controlarMusica() {
 /* =======================================================
    SOLUCIÓN AL AUDIO EN SEGUNDO PLANO (CHROME / MOBILE)
    ======================================================= */
-
-// Fuerza la pausa inmediata del reproductor
 function pausarMusicaForzado() {
   if (audio && !audio.paused) {
     audio.pause();
-    // NOTA: No quitamos la clase "activa" del botón para recordar que estaba encendida 
-    // y poder reanudarla automáticamente si el usuario regresa a la web.
   }
 }
 
-// 1. Detecta si el usuario cambia de pestaña, minimiza Chrome o bloquea el teléfono
 document.addEventListener("visibilitychange", function() {
   if (document.hidden) {
     pausarMusicaForzado();
   } else {
-    // Reanuda de manera inteligente solo si el botón estaba activo antes de irse
     if (audio && boton && boton.classList.contains("activa")) {
       audio.play().catch(e => console.log("Auto-play suspendido por el sistema."));
     }
   }
 });
 
-// 2. Detecta pérdida total de foco de la ventana (salir de Chrome o abrir otra app)
 window.addEventListener("blur", pausarMusicaForzado);
-
 window.addEventListener("focus", function() {
   if (audio && boton && boton.classList.contains("activa")) {
     audio.play().catch(e => console.log("Auto-play suspendido al enfocar."));
   }
 });
-
-// 3. Detecta cuando el navegador descarga la página de la memoria ram activa
 window.addEventListener("pagehide", pausarMusicaForzado);
-
-/* ======================================================= */
 
 // --- CONTADOR ---
 function iniciarContador() {
@@ -198,7 +186,6 @@ function confirmarAsistencia() {
 }
 
 function mostrarPaginaConfirmacion() {
-  // Al cambiar internamente de pantalla, apagamos la música por comodidad y orden
   if (audio) {
     audio.pause();
     if (boton) boton.classList.remove("activa");
@@ -219,7 +206,6 @@ function enviarMapasCelular() {
     return;
   }
 
-  // Pausamos la música forzadamente porque abriremos la aplicación externa de WhatsApp
   pausarMusicaForzado();
 
   const mensaje = "¡Hola! Te comparto la información de la boda:\n\n📅 La boda de Ramiro y Janneth es el 18 de septiembre de 2026 a las 15:45 hrs.\n\n📍 Ubicación Iglesia:\nhttps://maps.app.goo.gl/PhbBfAwMVTSq4HfM7\n\n📍 \n\n📍 Ubicación Salón de Convenciones:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6\n\n¡Te \n\n¡Te esperamos!";
@@ -228,7 +214,7 @@ function enviarMapasCelular() {
   window.open(urlWhatsapp, "_blank");
 }
 
-// --- LÓGICA DE FOTOS (Con restricción de fecha) ---
+// --- LÓGICA DE FOTOS ---
 function verificarFechaFoto(evento) {
   var ahora = new Date();
   if (ahora < FECHA_HABILITACION_FOTOS) {
@@ -260,14 +246,14 @@ function procesarFoto() {
 
   if (ahora < FECHA_HABILITACION_FOTOS) {
     mensaje.innerText = "La subida se habilita el 18 de septiembre a las 15:45 hrs.";
-    mensaje.style.color = "var(--salmon)";
+    mensaje.style.color = "var(--salmon-oscuro)";
     return;
   }
 
   var archivo = fotoSeleccionada;
   if (!archivo) {
     mensaje.innerText = "Por favor, selecciona una foto primero.";
-    mensaje.style.color = "var(--salmon)";
+    mensaje.style.color = "var(--salmon-oscuro)";
     return;
   }
 
