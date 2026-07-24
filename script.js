@@ -242,7 +242,7 @@ function enviarMapasCelular() {
 
   pausarMusicaForzado();
 
-  const mensaje = "¡Hola! Te comparto la información de la boda:\n\n📅 La boda de Ramiro y Janneth es el 18 de septiembre de 2026 a las 15:45 hrs.\n\n📍 Ubicación Iglesia:\nhttps://maps.app.goo.gl/PhbBfAwMVTSq4HfM7\n\n📍 \n\n📍 Ubicación Salón de Convenciones:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6\n\n¡Te \n\n¡Te esperamos!";
+  const mensaje = "¡Hola! Te comparto la información de la boda:\n\n📅 La boda de Ramiro y Janneth es el 18 de septiembre de 2026 a las 15:45 hrs.\n\n - Ubicación Iglesia:\nhttps://maps.app.goo.gl/EuFd8qyN9rFG9ic3A\n\n📍 \n\n - Ubicación Salón de Convenciones:\nhttps://maps.app.goo.gl/Kfsjnvcr4CRgxQsc6\n\n¡Te \n\n¡Te esperamos!";
   const urlWhatsapp = "https://wa.me/591" + celular + "?text=" + encodeURIComponent(mensaje);
   
   window.open(urlWhatsapp, "_blank");
